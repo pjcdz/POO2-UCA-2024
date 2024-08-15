@@ -9,11 +9,19 @@
 const cuadrado_de = num => num * num;
 const creaResta = x => y => y-x;
 const repeat = (functionToRepeat, n) => {
-    const arr = new Array(n).fill(0);
-    arr.map((_, index) => functionToRepeat(index + 1));
+    // let result = [];
+    // for (let i = 0; i < n; i++) {
+    //     result.push(functionToRepeat(i + 1));
+    // }
+    // return result;
+
+    // let arr = new Array(n).fill(0);
+    let arr = Array.from({length: n});
+    arr = arr.map( (_,i) => functionToRepeat(i+1) );
+    return arr;
 };
 
-const printString = n => console.log("Execution number " + n);
+const printString = n => "Execution Number: " + n;
 const howManyTimesAppear = null;
 
 test("ejercicio 1", () => {
