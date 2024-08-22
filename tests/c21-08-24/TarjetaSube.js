@@ -3,9 +3,24 @@ class TarjetaSube {
     constructor(id) {
         this.id = id;
         this.saldo = 0;
+        this.saldoDeRecargaPendiente = 0;
     }
 
-    // #testt
+    obtenerIdentificador() {
+        return this.id;
+    }
+
+    obtenerSaldoDeRecargaPendiente() {
+        return this.saldoDeRecargaPendiente;
+    }
+
+    agregarSaldoDeRecargaPendiente(saldoDeRecarga) {
+        this.saldoDeRecargaPendiente += saldoDeRecarga;
+    }
+
+    removerSaldoDeRecargaPendiente(saldoDeRecargaAcreditado) {
+        this.saldoDeRecargaPendiente -= saldoDeRecargaAcreditado;
+    }
 
     obtenerSaldo() {
         return this.saldo;
