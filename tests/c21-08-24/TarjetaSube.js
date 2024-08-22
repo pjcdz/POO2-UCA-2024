@@ -1,8 +1,8 @@
 class TarjetaSube {
+    static SALDO_MINIMO = -600;
     constructor(id) {
         this.id = id;
         this.saldo = 0;
-        this.saldoMinimo = -600;
     }
 
     // #testt
@@ -12,16 +12,24 @@ class TarjetaSube {
     }
 
     cargarSaldo(saldoACargar) {
-        return this.saldo = this.saldo + saldoACargar;
+        return this.saldo += saldoACargar;
     }
 
     pagarViaje(precioViaje) {
-        if ( !((this.saldo - precioViaje) >= this.saldoMinimo) ) {
-            throw new Error("Saldo insuficiente.");
-        } 
+        this.validarSaldoSuficienteParaViajar(precioViaje); 
 
-        return this.saldo = this.saldo - precioViaje;
+        return this.saldo -= precioViaje;
     }
+
+    validarSaldoSuficienteParaViajar(precioViaje) {
+        if ( this.elSaldoRestanteEsMenorQueElSaldoMinimo(precioViaje) ) {
+            throw new Error("Saldo insuficiente.");
+        }
+    }
+
+    elSaldoRestanteEsMenorQueElSaldoMinimo(precioViaje) {
+        return this.saldo - precioViaje < TarjetaSube.SALDO_MINIMO;
+    }   
 }
 
 module.exports = TarjetaSube;
