@@ -1,48 +1,48 @@
-const TarjetaSube = function(id) {
+class TarjetaSube {
+    static SALDO_MINIMO = -600;
+    constructor(id) {
+        this.id = id;
+        this.saldo = 0;
+        this.saldoDeRecargaPendiente = 0;
+    }
 
-    const SALDO_MINIMO = -600;
-
-    this.id = id;
-    this.saldo = 0;
-    this.saldoDeRecargaPendiente = 0;
-
-    this.obtenerIdentificador = function() {
+    obtenerIdentificador() {
         return this.id;
     }
 
-    this.obtenerSaldoDeRecargaPendiente = function() {
+    obtenerSaldoDeRecargaPendiente() {
         return this.saldoDeRecargaPendiente;
     }
 
-    this.agregarSaldoDeRecargaPendiente = function(saldoDeRecarga) {
+    agregarSaldoDeRecargaPendiente(saldoDeRecarga) {
         this.saldoDeRecargaPendiente += saldoDeRecarga;
     }
 
-    this.removerSaldoDeRecargaPendiente = function(saldoDeRecargaAcreditado) {
+    removerSaldoDeRecargaPendiente(saldoDeRecargaAcreditado) {
         this.saldoDeRecargaPendiente -= saldoDeRecargaAcreditado;
     }
 
-    this.obtenerSaldo = function() {
+    obtenerSaldo() {
         return this.saldo;
     }
 
-    this.cargarSaldo = function(saldoACargar) {
+    cargarSaldo(saldoACargar) {
         return this.saldo += saldoACargar;
     }
 
-    this.pagarViaje = function(precioViaje) {
+    pagarViaje(precioViaje) {
         this.validarSaldoSuficienteParaViajar(precioViaje); 
 
         return this.saldo -= precioViaje;
     }
 
-    this.validarSaldoSuficienteParaViajar = function(precioViaje) {
+    validarSaldoSuficienteParaViajar(precioViaje) {
         if ( this.elSaldoRestanteEsMenorQueElSaldoMinimo(precioViaje) ) {
             throw new Error("Saldo insuficiente.");
         }
     }
 
-    this.elSaldoRestanteEsMenorQueElSaldoMinimo = function(precioViaje) {
+    elSaldoRestanteEsMenorQueElSaldoMinimo(precioViaje) {
         return this.saldo - precioViaje < TarjetaSube.SALDO_MINIMO;
     }   
 }

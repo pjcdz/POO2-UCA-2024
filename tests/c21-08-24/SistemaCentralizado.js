@@ -1,24 +1,22 @@
-const TarjetaSube = require('./TarjetaSube');
+const tarjetaSube = require('./TarjetaSube');
 
-class SistemaCentralizado {
-    constructor () {
-        this.recargasPendientes = [];
-    }
+const sistemaCentralizado = {
+    recargasPendientes: [],
 
-    cargarTarjetaSube(TarjetaSube, saldoACargar) {
-        TarjetaSube.agregarSaldoDeRecargaPendiente(saldoACargar);
-        this.recargasPendientes.push(TarjetaSube);
-    }
+    cargarTarjetaSube: function(tarjetaSube, saldoACargar) {
+        tarjetaSube.agregarSaldoDeRecargaPendiente(saldoACargar);
+        this.recargasPendientes.push(tarjetaSube);
+    },
 
-    cargasPendientes() {
+    cargasPendientes: function() {
         return this.recargasPendientes.length;
-    }
+    },
 
-    acreditarRecarga(TarjetaSube) {
-        TarjetaSube.cargarSaldo(TarjetaSube.obtenerSaldoDeRecargaPendiente());
-        TarjetaSube.removerSaldoDeRecargaPendiente(TarjetaSube.obtenerSaldoDeRecargaPendiente());
-        this.recargasPendientes = this.recargasPendientes.filter(tarjeta => tarjeta !== TarjetaSube);
+    acreditarRecarga: function(tarjetaSube) {
+        tarjetaSube.cargarSaldo(tarjetaSube.obtenerSaldoDeRecargaPendiente());
+        tarjetaSube.removerSaldoDeRecargaPendiente(tarjetaSube.obtenerSaldoDeRecargaPendiente());
+        this.recargasPendientes = this.recargasPendientes.filter(tarjeta => tarjeta !== tarjetaSube);
     }
 }
 
-module.exports = SistemaCentralizado;
+module.exports = sistemaCentralizado;
