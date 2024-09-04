@@ -5,7 +5,7 @@ class SistemaCentralizado {
         this.recargasPendientes = [];
     }
 
-    cargarTarjetaSube(TarjetaSube, saldoACargar) {
+    cargarTarjeta(TarjetaSube, saldoACargar) {
         TarjetaSube.agregarSaldoDeRecargaPendiente(saldoACargar);
         this.recargasPendientes.push(TarjetaSube);
     }
