@@ -1,12 +1,13 @@
-const SistemaCentralizado = require("./SistemaCentralizadoPrototypeLiteral");
+// const SistemaCentralizado = require("./SistemaCentralizado");
+const sistemaCentralizado = require("./SistemaCentralizadoPrototypeLiteral");
 const TarjetaSube = require("./TarjetaSubePrototype");
-const TarjetaOyster = require("./TarjetaOysterPrototype");
 
 describe("Sistema Centralizado", () => {
-    let sistemaCentralizado;
+    // let sistemaCentralizado;
 
     beforeEach(() => {
-        sistemaCentralizado = new SistemaCentralizado();
+        // sistemaCentralizado = new SistemaCentralizado();
+        sistemaCentralizado.recargasPendientes = [];
     });
 
     test("al cargar una tarjeta por primera vez, las recargas pendientes son 1", () => {
