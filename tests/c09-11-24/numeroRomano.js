@@ -16,11 +16,10 @@ function numeroRomano(numero) {
     ];
 
     // Iterar sobre los valores romanos
-    for (let i = 0; i < valoresRomanos.length; i++) {
+    let i = 0;
+    valoresRomanos.map( () => {
         let valorActual = valoresRomanos[i].valor;
-        let simboloActual = valoresRomanos[i].simbolo;
-
-        // Calcular cuántas veces el número puede ser dividido por el valor actual
+        // Ralcular cuántas veces el número puede ser dividido por el valor actual
         let cociente = Math.floor(numero / valorActual);
 
         // Añadir el símbolo romano correspondiente tantas veces como sea necesario
@@ -28,7 +27,8 @@ function numeroRomano(numero) {
 
         // Reducir el valor del número
         numero %= valorActual;
-    }
+        i++;
+    });
 
     return romano;
 }

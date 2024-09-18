@@ -28,5 +28,5 @@ test('Factorial of a positive number should be calculated correctly', () => {
 });
 
 test('Factorial of a large number should be calculated correctly', () => {
-    expect(factorial(10)).toBe(3628800);
+    expect(factorial(10)).toBe(3628800);|
 });
