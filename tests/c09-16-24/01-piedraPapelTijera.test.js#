@@ -1,4 +1,4 @@
-const { Piedra, Papel, Tijera } = require('./piedraPapelTijera');
+const { Piedra, Papel, Tijera } = require('./01-piedraPapelTijera');
 // const { Nodo, Cola } = require('./03-colas');
 
 let piedra;
