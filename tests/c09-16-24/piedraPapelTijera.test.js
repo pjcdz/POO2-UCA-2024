@@ -1,0 +1,54 @@
+const { Piedra, Papel, Tijera } = require('./piedraPapelTijera');
+// const { Nodo, Cola } = require('./03-colas');
+
+let piedra;
+let papel;
+let tijera;
+
+beforeEach(() => {
+    piedra = new Piedra();
+    papel = new Papel();
+    tijera = new Tijera();
+});
+
+describe('... vs Piedra', () => {
+    test('Piedra vs Piedra', () => {
+        expect(piedra.versus(piedra)).toBe(null);
+    });
+
+    test('Papel vs Piedra', () => {
+        expect(piedra.versus(papel)).toBe(1);
+    });
+
+    test('Tijera vs Piedra', () => {
+        expect(piedra.versus(tijera)).toBe(0);
+    });
+});
+
+describe('... vs Papel', () => {
+    test('Piedra vs Papel', () => {
+        expect(papel.versus(piedra)).toBe(0);
+    });
+
+    test('Papel vs Papel', () => {
+        expect(papel.versus(papel)).toBe(null);
+    });
+
+    test('Tijera vs Papel', () => {
+        expect(papel.versus(tijera)).toBe(1);
+    });
+});
+
+describe('... vs Tijera', () => {
+    test('Piedra vs Tijera', () => {
+        expect(tijera.versus(piedra)).toBe(1);
+    });
+
+    test('Papel vs Tijera', () => {
+        expect(tijera.versus(papel)).toBe(0);
+    });
+
+    test('Tijera vs Tijera', () => {
+        expect(tijera.versus(tijera)).toBe(null);
+    });
+});
