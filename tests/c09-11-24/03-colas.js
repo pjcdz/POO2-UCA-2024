@@ -1,24 +1,21 @@
 const Nodo = function(value) {
     this.value = value;
-    let next = null;
+    this.next = null;
 };
 
 const Cola = function() {
-    let first = null;
-    let last = null;
+    this.first = null;
+    this.last = null;
 
     this.queue = function(nodoToQueue) {
         if (!this.first) { // con el "!" == null
             this.first = nodoToQueue;
             this.first.next = nodoToQueue;
-            this.last = nodoToQueue;
-            // this.last.next = nodoToQueue;
-            // this.last = nodoToQueue;
         } 
         else {
             this.last.next = nodoToQueue;
-            this.last = nodoToQueue;
         }
+        this.last = nodoToQueue;
         
         return "first: " + this.first.value + ", last: " + this.last.value;
     }
