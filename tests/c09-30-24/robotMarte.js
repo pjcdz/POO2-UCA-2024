@@ -10,6 +10,10 @@ const Posicion = function (x, y) {
         return this.y;
     }
 
+    this.actualizarPosicionX = function (nuevaX) {
+        this.x = nuevaX;
+    }
+
     this.actualizarPosicionY = function (nuevaY) {
         this.y = nuevaY;
     }
@@ -18,32 +22,66 @@ const Posicion = function (x, y) {
 const Robot = function (posX, posY) {
     this.pos = new Posicion(posX, posY);
 
-    this.movimientoEnS = function (letra) {
-        if (letra === 'S' && this.pos.obtenerPosicionY() > 0) {
-            this.pos.actualizarPosicionY(this.pos.obtenerPosicionY() - 1);
+    this.movimientoEnW = function (letra, posGenerica) {
+        if (letra === 'W') {
+            posGenerica.actualizarPosicionY(posGenerica.obtenerPosicionY() + 1);
             return true;
         }
         return false;
     }
 
-    this.verificacion = function(strComandos) {
+    this.movimientoEnA = function (letra, posGenerica) {
+        if (letra === 'A' && posGenerica.obtenerPosicionX() > 0) {
+            posGenerica.actualizarPosicionX(posGenerica.obtenerPosicionX() - 1);
+            return true;
+        }
+        return false;
+    }
+
+    this.movimientoEnS = function (letra, posGenerica) {
+        if (letra === 'S' && posGenerica.obtenerPosicionY() > 0) {
+            posGenerica.actualizarPosicionY(posGenerica.obtenerPosicionY() - 1);
+            return true;
+        }
+        return false;
+    }
+
+    this.movimientoEnD = function (letra, posGenerica) {
+        if (letra === 'D') {
+            posGenerica.actualizarPosicionX(posGenerica.obtenerPosicionX() + 1);
+            return true;
+        }
+        return false;
+    }
+
+    this.verificacion = function(letra) {
         let posicionAux = new Posicion(this.pos.obtenerPosicionX(), this.pos.obtenerPosicionY());
-        return strComandos.every((letra) => {
-            if (letra === 'S' && posicionAux.obtenerPosicionY() > 0) {
-                posicionAux.actualizarPosicionY(posicionAux.obtenerPosicionY() - 1);
-                return true;
-            }
+        let resultado = this.movimientoEnW(letra, posicionAux) ||
+            this.movimientoEnA(letra, posicionAux) ||
+            this.movimientoEnS(letra, posicionAux) ||
+            this.movimientoEnD(letra, posicionAux);
+    
+        if (resultado == false) {
             return false;
-        });
+        } else {
+            return true;
+        }
     }
 
     this.comando = function(strComandos) {
-        if (this.verificacion(strComandos)) { // if verificacion == true
-            strComandos.map( (letra) => {
-                this.movimientoEnS(letra);
-            });
-        }
+        let comandoInvalidoEnStrComandos = false;
+        strComandos.map((letra) => { // Se ejecuta el comando para cada letra, si se encuentra un comando inválido, se detiene la ejecución
+            if (this.verificacion(letra) == false) {
+                comandoInvalidoEnStrComandos = true;
+            }
+            if (comandoInvalidoEnStrComandos == false) {
+                this.movimientoEnW(letra, this.pos);
+                this.movimientoEnA(letra, this.pos);
+                this.movimientoEnS(letra, this.pos);
+                this.movimientoEnD(letra, this.pos);
+            }
+        });
     }
 }
 
-module.exports = { Robot, Posicion };
+module.exports = Robot;
