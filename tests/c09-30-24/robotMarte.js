@@ -19,12 +19,24 @@ const Posicion = function (x, y) {
     }
 }
 
-const Robot = function (posX, posY) {
+const Robot = function (posX, posY, obstaculo) {
     this.pos = new Posicion(posX, posY);
+    this.obstaculo = obstaculo;
 
     this.movimientoEnW = function (letra, posGenerica) {
-        if (letra === 'W') {
+        if (letra === 'W' && posGenerica.obtenerPosicionY() < 100) {
             posGenerica.actualizarPosicionY(posGenerica.obtenerPosicionY() + 1);
+            return true;
+        }
+        return false;
+    }
+
+    this.verificacionObstaculoMovimientoEnW = function (letra, posGenerica) {
+        let obstaculoObstruyendoSiguienteMovimientoW = this.obstaculo &&
+        posGenerica.obtenerPosicionY() + 1 === this.obstaculo.pos.obtenerPosicionY() &&
+        posGenerica.obtenerPosicionX() === this.obstaculo.pos.obtenerPosicionX();
+
+        if (letra === 'W' && !obstaculoObstruyendoSiguienteMovimientoW) {
             return true;
         }
         return false;
@@ -47,21 +59,37 @@ const Robot = function (posX, posY) {
     }
 
     this.movimientoEnD = function (letra, posGenerica) {
-        if (letra === 'D') {
+        if (letra === 'D' && posGenerica.obtenerPosicionX() < 100) {
             posGenerica.actualizarPosicionX(posGenerica.obtenerPosicionX() + 1);
             return true;
         }
         return false;
     }
 
-    this.verificacion = function(letra) {
+        this.verificacionGeneral = function(strComandos) {
         let posicionAux = new Posicion(this.pos.obtenerPosicionX(), this.pos.obtenerPosicionY());
-        let resultado = this.movimientoEnW(letra, posicionAux) ||
+        const resultados = strComandos.map((letra) => {
+            return this.movimientoEnW(letra, posicionAux) ||
+                this.movimientoEnA(letra, posicionAux) ||
+                this.movimientoEnS(letra, posicionAux) ||
+                this.movimientoEnD(letra, posicionAux);
+        });
+    
+        if (resultados.includes(false)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    this.verificacionIndividualParaObstaculos = function(letra) {
+        let posicionAux = new Posicion(this.pos.obtenerPosicionX(), this.pos.obtenerPosicionY());
+        let movimientoValido = this.verificacionObstaculoMovimientoEnW(letra, posicionAux) ||
             this.movimientoEnA(letra, posicionAux) ||
             this.movimientoEnS(letra, posicionAux) ||
             this.movimientoEnD(letra, posicionAux);
     
-        if (resultado == false) {
+        if (movimientoValido == false) {
             return false;
         } else {
             return true;
@@ -69,19 +97,31 @@ const Robot = function (posX, posY) {
     }
 
     this.comando = function(strComandos) {
-        let comandoInvalidoEnStrComandos = false;
+        let counter = 0; // Se limita a 10 movimientos
+        let obstaculoEncontrado = false;
+
+        if (this.verificacionGeneral(strComandos) == false) {
+            return;
+        }
+
         strComandos.map((letra) => { // Se ejecuta el comando para cada letra, si se encuentra un comando inválido, se detiene la ejecución
-            if (this.verificacion(letra) == false) {
-                comandoInvalidoEnStrComandos = true;
+            let penUltimoMovimiento = counter == strComandos.length - 2; // Se verifica si es el penúltimo movimiento para quedarse quieto en la posicion actual
+            if (this.verificacionIndividualParaObstaculos(letra) == false && !penUltimoMovimiento) {
+                obstaculoEncontrado = true;
             }
-            if (comandoInvalidoEnStrComandos == false) {
+            if (obstaculoEncontrado == false && counter < 10) {
                 this.movimientoEnW(letra, this.pos);
                 this.movimientoEnA(letra, this.pos);
                 this.movimientoEnS(letra, this.pos);
                 this.movimientoEnD(letra, this.pos);
+                counter++;
             }
         });
     }
 }
 
-module.exports = Robot;
+const Obstaculo = function(posX, posY) {
+    this.pos = new Posicion(posX, posY);
+}
+
+module.exports = {Robot, Obstaculo};
