@@ -166,8 +166,8 @@ describe('Pruebas de movimiento del robot con comandos válidos e inválidos', (
     });
 });
 
-describe('Obstaculos', () => {
-    test('Movimiento WW y obstaculo, queda en 0,1', () => {
+describe('Obstaculos en el penultimo movimiento, para quedarse quieto en la posicion actual', () => {
+    test('Movimiento WW y obstaculo, queda en 0,2', () => {
         let obstaculo = new Obstaculo(0, 3);
         let robot = new Robot(0, 0, obstaculo);
         robot.comando(['W', 'W', 'W']); 
@@ -175,4 +175,27 @@ describe('Obstaculos', () => {
         expect(robot.pos.obtenerPosicionY()).toBe(2);
     });
 
+    test('Movimiento AA y obstaculo, queda en 1,0', () => {
+        let obstaculo = new Obstaculo(0, 0);
+        let robot = new Robot(4, 0, obstaculo);
+        robot.comando(['A', 'A', 'A']); 
+        expect(robot.pos.obtenerPosicionX()).toBe(1);
+        expect(robot.pos.obtenerPosicionY()).toBe(0);
+    });
+
+    test('Movimiento SS y obstaculo, queda en 0,1', () => {
+        let obstaculo = new Obstaculo(0, 0);
+        let robot = new Robot(0, 4, obstaculo);
+        robot.comando(['S', 'S', 'S']); 
+        expect(robot.pos.obtenerPosicionX()).toBe(0);
+        expect(robot.pos.obtenerPosicionY()).toBe(1);
+    });
+
+    test('Movimiento DD y obstaculo, queda en 1,0', () => {
+        let obstaculo = new Obstaculo(3, 0);
+        let robot = new Robot(0, 0, obstaculo);
+        robot.comando(['D', 'D', 'D']); 
+        expect(robot.pos.obtenerPosicionX()).toBe(2);
+        expect(robot.pos.obtenerPosicionY()).toBe(0);
+    });
 });
