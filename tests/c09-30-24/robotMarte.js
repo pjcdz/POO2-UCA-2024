@@ -19,6 +19,10 @@ const Posicion = function (x, y) {
     }
 }
 
+const Obstaculo = function(posX, posY) {
+    this.pos = new Posicion(posX, posY);
+}
+
 const Robot = function (posX, posY, obstaculo) {
     this.pos = new Posicion(posX, posY);
     this.obstaculo = obstaculo;
@@ -110,6 +114,9 @@ const Robot = function (posX, posY, obstaculo) {
         }
     }
 
+// De estar en 00 (lugar A), comando WW, obstaculo en 01 (lugar S), simula sus movimiento para rebasar el obstaculo y llegar a 02 (lugar Q)
+// puede rebasar por derecha: para ello hace desde 00 (lugar A) -> 10 (lugar X) -> 11 (lugar S) -> 12 (lugar W) -> llega a 02 (lugar Q)
+
     this.comando = function(strComandos) {
         let counter = 0; // Se limita a 10 movimientos
         let obstaculoEncontrado = false;
@@ -129,10 +136,6 @@ const Robot = function (posX, posY, obstaculo) {
             }
         });
     }
-}
-
-const Obstaculo = function(posX, posY) {
-    this.pos = new Posicion(posX, posY);
 }
 
 module.exports = {Robot, Obstaculo};
