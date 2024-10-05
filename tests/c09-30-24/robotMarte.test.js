@@ -198,4 +198,19 @@ describe('Obstaculos en el penultimo movimiento, para quedarse quieto en la posi
         expect(robot.pos.obtenerPosicionX()).toBe(2);
         expect(robot.pos.obtenerPosicionY()).toBe(0);
     });
+
+    // test('debería evitar el obstáculo y llegar a la posición final por la derecha', () => {
+    //     // Crear un obstáculo en la posición (0, 1)
+    //     let obstaculo = new Obstaculo(0, 1);
+
+    //     // Crear un robot en la posición inicial (0, 0)
+    //     let robot = new Robot(0, 0, obstaculo);
+
+    //     // Enviar comandos para moverse hacia adelante
+    //     robot.comando(['W', 'W', 'W']);
+
+    //     // Verificar que el robot haya evitado el obstáculo y haya llegado a la posición final (0, 2)
+    //     expect(robot.pos.obtenerPosicionX()).toBe(0);
+    //     expect(robot.pos.obtenerPosicionY()).toBe(2);
+    // });
 });
