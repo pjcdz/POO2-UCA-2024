@@ -134,24 +134,42 @@ const Robot = function (posX, posY, obstaculo) {
             let penUltimoMovimiento = counter == strComandos.length - 1; // Se verifica si es el penúltimo movimiento para quedarse quieto en la posicion actual
             if (this.verificacionIndividualParaObstaculos(letra) == false) {
                 obstaculoEncontrado = true;
-                if (penUltimoMovimiento == false && strComandos[index + 1] == 'W') { // Si el penúltimo movimiento es W, se puede rebasar por la derecha
-                    if (!this.comando(['A', 'W', 'W', 'D'])) { // Intenta rebasar por la izquierda
-                        this.comando(['D', 'W', 'W', 'A']); // Si falla, intenta rebasar por la derecha
+    
+                // Intentar rebasar si no es el penúltimo movimiento y en la dirección específica
+                if (!penUltimoMovimiento) {
+                    switch (strComandos[index + 1]) {
+                        case 'W':
+                            // Rebasar si el penúltimo movimiento es 'W'
+                            if (!this.comando(['A', 'W', 'W', 'D'])) { // Intenta rebasar por la izquierda
+                                this.comando(['D', 'W', 'W', 'A']); // Si falla, intenta rebasar por la derecha
+                            }
+                            break;
+    
+                        // case 'A': 
+                        //     // Rebasar si el penúltimo movimiento es 'A'
+                        //     if (!this.comando(['W', 'A', 'A', 'S'])) { // Intenta rebasar por arriba
+                        //         this.comando(['S', 'A', 'A', 'W']); // Si falla, intenta rebasar por abajo
+                        //     }
+                        //     break;
+    
+                        // case 'S':
+                        //     // Rebasar si el penúltimo movimiento es 'S'
+                        //     if (!this.comando(['D', 'S', 'S', 'A'])) { // Intenta rebasar por la derecha
+                        //         this.comando(['A', 'S', 'S', 'D']); // Si falla, intenta rebasar por la izquierda
+                        //     }
+                        //     break;
+    
+                        case 'D':
+                            // Rebasar si el penúltimo movimiento es 'D'
+                            if (!this.comando(['S', 'D', 'D', 'W'])) { // Intenta rebasar por abajo
+                                this.comando(['W', 'D', 'D', 'S']); // Si falla, intenta rebasar por arriba
+                            }
+                            break;
+    
+                        default:
+                            break;
                     }
-                } 
-                // if (penUltimoMovimiento == false && strComandos[index + 1] == 'A') { // Si el penúltimo movimiento es A, se puede rebasar por arriba
-                //     if (!this.comando(['W', 'A', 'A', 'S'])) { // Intenta rebasar por arriba
-                //         this.comando(['S', 'A', 'A', 'W']); // Si falla, intenta rebasar por abajo
-                // }
-                // } else if (penUltimoMovimiento == false && strComandos[index + 1] == 'S') { // Si el penúltimo movimiento es S, se puede rebasar por la izquierda
-                //     if (!this.comando(['D', 'S', 'S', 'A'])) { // Intenta rebasar por la derecha
-                //         this.comando(['A', 'S', 'S', 'D']); // Si falla, intenta rebasar por la izquierda
-                //     }
-                // } else if (penUltimoMovimiento == false && strComandos[index + 1] == 'D') { // Si el penúltimo movimiento es D, se puede rebasar por abajo
-                //     if (!this.comando(['S', 'D', 'D', 'W'])) { // Intenta rebasar por abajo
-                //         this.comando(['W', 'D', 'D', 'S']); // Si falla, intenta rebasar por arriba
-                //     }
-                // }
+                }
             }
             if (obstaculoEncontrado == false && counter < 10) {
                 this.movimiento(letra, this.pos);

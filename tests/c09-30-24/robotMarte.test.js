@@ -241,7 +241,7 @@ describe('Comprobación de comandos con penúltimo movimiento W', () => {
 //         let robot = new Robot(0, 2, obstaculo);
 
 //         // Enviar comandos para moverse hacia adelante
-//         robot.comando(['A', 'A']);
+//         robot.comando(['A', 'A', 'A']);
 
 //         // Verificar que el robot haya evitado el obstáculo y haya llegado a la posición final (2, 0)
 //         expect(robot.pos.obtenerPosicionX()).toBe(0);
@@ -256,7 +256,7 @@ describe('Comprobación de comandos con penúltimo movimiento W', () => {
 //         let robot = new Robot(0, 2, obstaculo);
 
 //         // Enviar comandos para moverse hacia adelante
-//         robot.comando(['A', 'A']);
+//         robot.comando(['A', 'A', 'A']);
 
 //         // Verificar que el robot haya evitado el obstáculo y haya llegado a la posición final (2, 0)
 //         expect(robot.pos.obtenerPosicionX()).toBe(0);
@@ -296,34 +296,34 @@ describe('Comprobación de comandos con penúltimo movimiento W', () => {
 //     });
 // });
 
-// describe('Comprobación de comandos con penúltimo movimiento D', () => {
-//     test('debería evitar el obstáculo y llegar a la posición final por abajo', () => {
-//         // Crear un obstáculo en la posición (-1, 0)
-//         let obstaculo = new Obstaculo(1, 0);
+describe('Comprobación de comandos con penúltimo movimiento D', () => {
+    test('debería evitar el obstáculo y llegar a la posición final por abajo', () => {
+        // Crear un obstáculo en la posición (-1, 0)
+        let obstaculo = new Obstaculo(1, 0);
 
-//         // Crear un robot en la posición inicial (0, 0)
-//         let robot = new Robot(0, 0, obstaculo);
+        // Crear un robot en la posición inicial (0, 0)
+        let robot = new Robot(0, 0, obstaculo);
 
-//         // Enviar comandos para moverse hacia adelante
-//         robot.comando(['D', 'D', 'D']);
+        // Enviar comandos para moverse hacia adelante
+        robot.comando(['D', 'D', 'D']);
 
-//         // Verificar que el robot haya evitado el obstáculo y haya llegado a la posición final (-2, 0)
-//         expect(robot.pos.obtenerPosicionX()).toBe(2);
-//         expect(robot.pos.obtenerPosicionY()).toBe(0);
-//     });
+        // Verificar que el robot haya evitado el obstáculo y haya llegado a la posición final (-2, 0)
+        expect(robot.pos.obtenerPosicionX()).toBe(2);
+        expect(robot.pos.obtenerPosicionY()).toBe(0);
+    });
 
-//     test('debería evitar el obstáculo y llegar a la posición final por arriba', () => {
-//         // Crear un obstáculo en la posición (-1, 0)
-//         let obstaculo = new Obstaculo(1, 0);
+    test('debería evitar el obstáculo y llegar a la posición final por arriba', () => {
+        // Crear un obstáculo en la posición (-1, 0)
+        let obstaculo = new Obstaculo(1, 0);
 
-//         // Crear un robot en la posición inicial (0, 0)
-//         let robot = new Robot(0, 0, obstaculo);
+        // Crear un robot en la posición inicial (0, 0)
+        let robot = new Robot(0, 0, obstaculo);
 
-//         // Enviar comandos para moverse hacia adelante
-//         robot.comando(['D', 'D', 'D']);
+        // Enviar comandos para moverse hacia adelante
+        robot.comando(['D', 'D', 'D']);
 
-//         // Verificar que el robot haya evitado el obstáculo y haya llegado a la posición final (-2, 0)
-//         expect(robot.pos.obtenerPosicionX()).toBe(2);
-//         expect(robot.pos.obtenerPosicionY()).toBe(0);
-//     });
-// });
+        // Verificar que el robot haya evitado el obstáculo y haya llegado a la posición final (-2, 0)
+        expect(robot.pos.obtenerPosicionX()).toBe(2);
+        expect(robot.pos.obtenerPosicionY()).toBe(0);
+    });
+});
