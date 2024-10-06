@@ -114,27 +114,52 @@ const Robot = function (posX, posY, obstaculo) {
         }
     }
 
-// De estar en 00 (lugar A), comando WW, obstaculo en 01 (lugar S), simula sus movimiento para rebasar el obstaculo y llegar a 02 (lugar Q)
-// puede rebasar por derecha: para ello hace desde 00 (lugar A) -> 10 (lugar X) -> 11 (lugar S) -> 12 (lugar W) -> llega a 02 (lugar Q)
+    // De estar en 00 (lugar A), comando WW, obstaculo en 01 (lugar S), simula sus movimiento para rebasar el obstaculo y llegar a 02 (lugar Q)
+    // puede rebasar por derecha: para ello hace desde 00 (lugar A) (D)-> 10 (lugar X) (W)-> 11 (lugar S) (W)-> 12 (lugar W) (A)-> llega a 02 (lugar Q)
+
+    // Se que la posicion actual es 00
+    // Si me quiero mover en W y el obstaculo esta en 01
+    // Tengo que rodear, moviendome D, W, W, A
+
 
     this.comando = function(strComandos) {
         let counter = 0; // Se limita a 10 movimientos
         let obstaculoEncontrado = false;
 
-        if (this.verificacionGeneral(strComandos) == false) {
-            return;
+        if (!this.verificacionGeneral(strComandos)) { // if == false
+            return false;
         }
 
-        strComandos.map((letra) => { // Se ejecuta el comando para cada letra, si se encuentra un comando inválido, se detiene la ejecución
+        strComandos.map((letra, index) => { // Se ejecuta el comando para cada letra, si se encuentra un comando inválido, se detiene la ejecución
             let penUltimoMovimiento = counter == strComandos.length - 1; // Se verifica si es el penúltimo movimiento para quedarse quieto en la posicion actual
-            if (this.verificacionIndividualParaObstaculos(letra) == false && penUltimoMovimiento) {
+            if (this.verificacionIndividualParaObstaculos(letra) == false) {
                 obstaculoEncontrado = true;
+                if (penUltimoMovimiento == false && strComandos[index + 1] == 'W') { // Si el penúltimo movimiento es W, se puede rebasar por la derecha
+                    if (!this.comando(['A', 'W', 'W', 'D'])) { // Intenta rebasar por la izquierda
+                        this.comando(['D', 'W', 'W', 'A']); // Si falla, intenta rebasar por la derecha
+                    }
+                } 
+                // if (penUltimoMovimiento == false && strComandos[index + 1] == 'A') { // Si el penúltimo movimiento es A, se puede rebasar por arriba
+                //     if (!this.comando(['W', 'A', 'A', 'S'])) { // Intenta rebasar por arriba
+                //         this.comando(['S', 'A', 'A', 'W']); // Si falla, intenta rebasar por abajo
+                // }
+                // } else if (penUltimoMovimiento == false && strComandos[index + 1] == 'S') { // Si el penúltimo movimiento es S, se puede rebasar por la izquierda
+                //     if (!this.comando(['D', 'S', 'S', 'A'])) { // Intenta rebasar por la derecha
+                //         this.comando(['A', 'S', 'S', 'D']); // Si falla, intenta rebasar por la izquierda
+                //     }
+                // } else if (penUltimoMovimiento == false && strComandos[index + 1] == 'D') { // Si el penúltimo movimiento es D, se puede rebasar por abajo
+                //     if (!this.comando(['S', 'D', 'D', 'W'])) { // Intenta rebasar por abajo
+                //         this.comando(['W', 'D', 'D', 'S']); // Si falla, intenta rebasar por arriba
+                //     }
+                // }
             }
             if (obstaculoEncontrado == false && counter < 10) {
                 this.movimiento(letra, this.pos);
                 counter++;
             }
         });
+
+        return true;
     }
 }
 
