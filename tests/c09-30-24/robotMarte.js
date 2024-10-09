@@ -145,19 +145,21 @@ const Robot = function (posX, posY, obstaculo) {
                             }
                             break;
     
-                        // case 'A': 
-                        //     // Rebasar si el penúltimo movimiento es 'A'
-                        //     if (!this.comando(['W', 'A', 'A', 'S'])) { // Intenta rebasar por arriba
-                        //         this.comando(['S', 'A', 'A', 'W']); // Si falla, intenta rebasar por abajo
-                        //     }
-                        //     break;
+                        case 'A': 
+                            // Rebasar si el penúltimo movimiento es 'A'
+                            // this.comando(['W', 'A', 'A', 'S'])
+                            if (!this.comando(['W', 'A', 'A', 'S'])) { // Intenta rebasar por arriba
+                                this.comando(['S', 'A', 'A', 'W']); // Si falla, intenta rebasar por abajo
+                            }
+                            break;
     
-                        // case 'S':
-                        //     // Rebasar si el penúltimo movimiento es 'S'
-                        //     if (!this.comando(['D', 'S', 'S', 'A'])) { // Intenta rebasar por la derecha
-                        //         this.comando(['A', 'S', 'S', 'D']); // Si falla, intenta rebasar por la izquierda
-                        //     }
-                        //     break;
+                        case 'S':
+                            // Rebasar si el penúltimo movimiento es 'S'
+                            // this.comando(['D', 'S', 'S', 'A'])
+                            if (!this.comando(['D', 'S', 'S', 'A'])) { // Intenta rebasar por la derecha
+                                this.comando(['A', 'S', 'S', 'D']); // Si falla, intenta rebasar por la izquierda
+                            }
+                            break;
     
                         case 'D':
                             // Rebasar si el penúltimo movimiento es 'D'
