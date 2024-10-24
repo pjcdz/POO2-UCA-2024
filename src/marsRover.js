@@ -63,7 +63,6 @@ const MarsRover = function (posicionInicialX, posicionInicialY, mapa, bateriaIni
                 comandoPendiente = new ComandoVacio();
             }catch (error){
                 if(!(error.message==="Hay un obstaculo donde me debo mover.")){ // Si se valido que estaba fuera del mapa
-                    console.log("HOLAHOLAHOAL");
                     this.posicionActual = posicionInicial;
                     throw error;
                 }
