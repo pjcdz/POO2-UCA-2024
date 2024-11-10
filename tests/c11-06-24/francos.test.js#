@@ -1,0 +1,149 @@
+let {Calendario, Empleado} = require('./francos');
+
+// 01 marcos
+
+// 0101.1. specific date - every year
+// 0102.1. specific date - every year
+// 0103.2. specific week day - every week 
+// 0104.3. specific week day - specific year
+// 0105.4. specific month - specific year
+
+
+// 02 paula
+
+// 0201.1. specific date - every year
+// 0202.1. specific date - every year
+// 0203.1. specific date - every year
+// 1. specific date - every year
+// 2. specific week day - every week
+// 5. specific month day - specific year
+
+
+// Federico
+
+// 1. specific date - every year
+// 6. specific week day && specific month - every year
+// 2. specific week day - every week
+// 1. specific date - every year
+// 1. specific date - every year
+
+// Esas son las 6 reglas de negocio 
+
+const crearFecha = function (day, month, year = 2024) {
+    if (day > 30) {
+        day = day - 30;
+
+    if (day < 10) {
+        day = `0${day}`;
+    } else if (month < 10) {
+        month = `0${month}`;
+    }
+    return new Date(`${year}-${month}-${day}T10:30:00Z`);
+}
+
+const seleccionarTipoRepeticion = function (fecha, tipoRepeticion) {
+    let noRepeat = function (fecha) {
+        this.esTipo = function (tipoRepeticion) {
+            return tipoRepeticion === "no-repeat";
+        }
+
+        this.arrayARetornar = function () {
+            return [fecha];
+        }
+    }
+
+    let everyYear = function (fecha) {
+        this.esTipo = function (tipoRepeticion) {
+            return tipoRepeticion === "every-year";
+        }
+
+        this.arrayARetornar = function () {
+            let arrayDeFechasEveryYear = [];
+            for (let i = 0; i <= 1; i++) {
+                let nuevaFecha = crearFecha(fecha.getDate(), fecha.getMonth() + 1, fecha.getFullYear() + i);
+                arrayDeFechasEveryYear.push(nuevaFecha);
+            }
+            return arrayDeFechasEveryYear;
+        }
+    }
+
+    let everyWeek = function (fecha) {
+        this.esTipo = function (tipoRepeticion) {
+            return tipoRepeticion === "every-week";
+        }
+
+        this.arrayARetornar = function () {
+            let arrayDeFechasEveryYear = [];
+            for (let i = 0; i <= 1; i++) {
+                let nuevaFecha = crearFecha(fecha.getDate() + 7*i, fecha.getMonth() + 1, fecha.getFullYear());
+                arrayDeFechasEveryYear.push(nuevaFecha);
+            }
+            return arrayDeFechasEveryYear;
+        }
+    }
+
+    let tipoRepeticionFactory = [
+        new noRepeat(fecha),
+        new everyYear(fecha),
+        new everyWeek(fecha)
+    ];
+
+    let resultado = tipoRepeticionFactory.find(posibleTipoRepeticion => posibleTipoRepeticion.esTipo(tipoRepeticion));
+    return resultado.arrayARetornar();
+}
+
+
+
+test('Tipo input 0: specific date - no repeat', () => {
+    let fecha2511t0 = crearFecha(25, 11);
+    let calendario = new Calendario([fecha2511t0]);
+    let empleado = new Empleado('Marcos', calendario);
+
+    expect(empleado.esFranco(fecha2511t0)).toBe(true);
+});
+
+test('Tipo input 0 con error:  preguntar si es franco una fecha que no lo es', () => {
+    let fecha2511t0 = crearFecha(25, 11);
+    let fecha2611t0 = crearFecha(26, 11);
+    let calendario = new Calendario([fecha2511t0]); // paso 25/11
+    let empleado = new Empleado('Marcos', calendario);
+
+    expect(empleado.esFranco(fecha2611t0)).toBe(false); // pregunto 26/11
+});
+
+test('Tipo input 0 con factories: specific date - no repeat', () => {
+    let fecha2511t0 = crearFecha(25, 11);
+    let seleccionTipoRepeticion = seleccionarTipoRepeticion(fecha2511t0, "no-repeat");
+
+    let calendario = new Calendario(seleccionTipoRepeticion);
+    let empleado = new Empleado('Marcos', calendario);
+
+    expect(empleado.esFranco(fecha2511t0)).toBe(true);
+});
+
+test('Tipo input 1 con factories: specific date - every year', () => {
+    let fecha251124t1 = crearFecha(25, 11, 2024);
+    let fecha251125t1 = crearFecha(25, 11, 2025);
+    let seleccionTipoRepeticion = seleccionarTipoRepeticion(fecha251124t1, "every-year");
+
+    let calendario = new Calendario(seleccionTipoRepeticion);
+    // let calendario = new Calendario([fecha251124t1, fecha251125t1]);
+    let empleado = new Empleado('Marcos', calendario);
+
+    expect(empleado.esFranco(fecha251124t1)).toBe(true);
+    expect(empleado.esFranco(fecha251125t1)).toBe(true);
+});
+
+test('Tipo input 2 con factories: specific week day - every week', () => {
+    let fecha251124t2 = crearFecha(25, 11, 2024); // fecha inicial, es un lunes
+    // let fecha021224t2 = new Date(`2024-12-02T10:30:00Z`); 
+    let fecha021224t2 = crearFecha(2, 11, 2024);
+    let seleccionTipoRepeticion = seleccionarTipoRepeticion(fecha251124t2, "every-week");
+
+    let calendario = new Calendario(seleccionTipoRepeticion);
+    // let calendario = new Calendario([fecha251124t2, fecha021224t2]);
+    let empleado = new Empleado('Marcos', calendario);
+
+    expect(empleado.esFranco(fecha251124t2)).toBe(true);
+    expect(empleado.esFranco(fecha021224t2)).toBe(true);
+});
